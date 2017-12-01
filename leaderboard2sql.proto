@@ -1,0 +1,1 @@
+select CONCAT('curl -D hdr.out -X GET https://www.strava.com/api/v3/segments/',min(segName.segment.id),'/leaderboard -d access_token=ACCESS_TOKEN') from segmentsforactivity lateral view explode(segment_efforts) segTable as segName group by segName.name;
