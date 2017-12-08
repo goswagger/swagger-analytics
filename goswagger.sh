@@ -2,7 +2,7 @@
 
 # su hive - and also cd ~ before executing script
 # files needed to run
-# analysis1,2,3.sql's, leaderboard1.sql, leaderboard2sql.proto, ratelimiter.sh, stravago.sh, stravacreatetables.sql
+# analysis1,2,3.sql's, leaderboard1.sql, leaderboard2sql.proto, ratelimiter.sh, goswagger.sh, swaggercreatehivetables.sql
 
 # Environment needed: Hadoop backend (Hortonworks, Cloudera, Apache), JSON jars for Hive/Beeline
 # https://github.com/quux00/hive-json-schema
@@ -27,7 +27,7 @@ SUCCESS=0
 if [ $# -ne ""$ARGS"" ]  # Correct number of arguments passed to script?
 then
 echo ""Usage: `basename $0` athleteid access_token |& tee athleteid.out""
-echo "example ./stravago.sh yourAthleteID yourStravaAccessToken |& tee yourAthleteId.out"
+echo "example ./goswagger.sh yourAthleteID yourStravaAccessToken |& tee yourAthleteId.out"
 exit $E_BADARGS
 fi
 ATHLETEID=$1
@@ -44,16 +44,13 @@ rm -f leaderboardforsegment2.json
 rm -f leaderboardforsegment3.json
 rm -f analysis1.out
 rm -f analysis2.out
-rm -f analysis3.outer
-rm -f a1clean.out
-rm -f a2clean.out
+rm -f analysis3.out
 rm -f analysis2tmp.sql
 rm -f analysis3tmp.sql
 
 # drop and re-create hive tables
-# hive -f 'stravacreatetables.sql'
-beeline -u jdbc:hive2://hiveserver:10000/default -n hive -p hive -f stravacreatetables.sql
-echo "STEP: stravacreatetables.sql complete ******************************************"
+beeline -u jdbc:hive2://hiveserver:10000/default -n hive -p hive -f swaggercreatehivetables.sql
+echo "STEP: swaggercreatehivetables.sql complete ******************************************"
 
 # retrieve strava activities for an athlete (up to 200 of the most recent activities)
 curl -D hdr.out -X GET https://www.strava.com/api/v3/athletes/$ATHLETEID/activities -d per_page=200 -d include_all_efforts=true -d access_token=$ACCESS_TOKEN > activitiesforathlete.json
@@ -89,7 +86,7 @@ sed -i '1,1d;$ d' leaderboardforsegment2.sh
 paste -d" " leaderboardforsegment1.json leaderboardforsegment2.json > leaderboardforsegment3.json
 
 # sed -i '' '$!N;s/\n/ /' leaderboardforsegment.json
-# the following -i should allow in-place edit of file but causes shell to barf (OSX worked, but not bash)
+# the following -i should allow in-place edit of file but causes shell to barf (OSX worked)
 # sed -i '' 's/ {"effort_count/,"effort_count/g' leaderboardforsegment.json
 sed 's/ {"effort_count/,"effort_count/g' leaderboardforsegment3.json > leaderboardforsegment.json
 

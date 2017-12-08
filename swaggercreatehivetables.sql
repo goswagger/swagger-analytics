@@ -150,7 +150,7 @@ STORED AS TEXTFILE;
 CREATE TABLE members (
 access_token string,
 token_type string,
-athlete struct<id:int, username:string, resource_state:int, firstname:string, lastname:string, city:string, state:string, country:string, sex:string, premium:boolean, created_at:datetime, updated_at:datetime, badge_type_id:int, profile_medium:string, profile:string, friend:string, follower:string, email:string>
+athlete struct<id:int, username:string, resource_state:int, firstname:string, lastname:string, city:string, state:string, country:string, sex:string, premium:boolean, created_at:timestamp, updated_at:timestamp, badge_type_id:int, profile_medium:string, profile:string, friend:string, follower:string, email:string>
 )
 ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe';
 */
