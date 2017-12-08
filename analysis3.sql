@@ -18,4 +18,4 @@ UNION
 select CONCAT('<a href="https://www.strava.com/segments/',segid,'/" rel="noopener noreferrer" target="_blank">https://www.strava.com/segments/',segid,'</a>') as segment, ranking, segrank from (select b.segment_id as segid, ' 9th' as ranking, if(b.entries[8].athlete_id=3414968 and b.entries[8].rank=9, 1, if(b.entries[9].athlete_id=3414968 and b.entries[9].rank=9, 1, 0)) as segrank from leaderboardforsegment b) t2 WHERE segrank > 0
 UNION
 select CONCAT('<a href="https://www.strava.com/segments/',segid,'/" rel="noopener noreferrer" target="_blank">https://www.strava.com/segments/',segid,'</a>') as segment, ranking, segrank from (select b.segment_id as segid, '10th' as ranking, if(b.entries[9].athlete_id=3414968 and b.entries[9].rank=10, 1, 0) as segrank from leaderboardforsegment b) t2 WHERE segrank > 0
-) AS T2 ORDER BY ranking
+) AS T2 ORDER BY ranking;
