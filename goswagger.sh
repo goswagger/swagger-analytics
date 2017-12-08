@@ -80,6 +80,7 @@ sed -i '1,1d;$ d' leaderboardforsegment2.sh
 
 # Partition the curl calls generated in leaderboardforsegment.json to fit within the Strava rate limited 600 API calls per 15 minutes
 #if [! ./ratelimiter.sh leaderboardforsegment2 -eq 0 ] then exit fi
+./ratelimiter.sh leaderboardforsegment1
 ./ratelimiter.sh leaderboardforsegment2
 
 # merge files line by line
