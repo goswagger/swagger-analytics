@@ -59,9 +59,13 @@
 			break;
 		case "updanalysis":
 		
-			//////
-			$JSONdata='[["kom","2nd","3nd","4th","5th","6th","7th","8th","9th","10th"],["13","4","2","7","3","3","5","3","1","1"]]';
-			$TABLEPRESSTABLE='analysis02-3414968.out';
+			// update tablepress tables, example contents shown
+			// $JSONdata='[["kom","2nd","3nd","4th","5th","6th","7th","8th","9th","10th"],["13","4","2","7","3","3","5","3","1","1"]]';
+			// $TABLEPRESSTABLE='analysis02-3414968.out';
+			// # curl --data-urlencode "data@analysis02-3414968.out" --data-urlencode "tableid=analysis02-3414968.out" http://www.goswagger.com/sample-page/?reqtype=updanalysis
+
+			$JSONdata=stripslashes($_POST['data']);
+			$TABLEPRESSTABLE=$_POST['tableid'];
 		
 			$result=$wpdb->update( 
 							  'wp_posts', 
