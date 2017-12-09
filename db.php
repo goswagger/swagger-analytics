@@ -63,7 +63,7 @@
 			// $TABLEPRESSTABLE='analysis02-3414968.out';
 			// # curl --data-urlencode "data@analysis02-3414968.out" --data-urlencode "tableid=analysis02-3414968.out" http://www.goswagger.com/sample-page/?reqtype=updanalysis
 
-			$JSONdata=stripslashes($_POST['data']);
+			$JSONdata=stripslashes(rawurldecode($_POST['data']));
 			$TABLEPRESSTABLE=$_POST['tableid'];
 		
 			$result=$wpdb->update( 
