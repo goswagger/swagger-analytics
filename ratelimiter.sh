@@ -31,7 +31,7 @@ USE=`grep $PART hdr.out | awk '{print $2}' | cut -d',' -f1`
 if [ $USE = $MAX ]; then
 echo "Max rate limit met. Waiting until quarter hour reset"
 sleep 1m
-while [ ! $RESETMINS =~ $(date +%M)  ]; do sleep 30s; echo "Sleeping"; done
+while [[ ! $RESETMINS =~ $(date +%M)  ]]; do sleep 30s; echo "Sleeping"; done
 fi
 echo "Processing $1.sh $USE $cmd"
 content="$($cmd)"
