@@ -1,1 +1,1 @@
-select CONCAT('echo {"segment_id":',min(segName.segment.id)) from segmentsforactivity lateral view explode(segment_efforts) segTable as segName group by segName.name;
+SELECT CONCAT('echo {"segment_id":',MIN(segName.segment.id)) AS seg from segmentsforactivity lateral view explode(segment_efforts) segTable as segName WHERE segName.segment.id NOT IN (SELECT segment_id from leaderboardforsegment) GROUP BY segName.name ORDER BY seg;
