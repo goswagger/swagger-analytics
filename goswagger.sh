@@ -93,6 +93,7 @@ sed 's/ {"effort_count/,"effort_count/g' leaderboardforsegment3.json > leaderboa
 
 # remove error rows for segment leaderboards not returned due to being "flagged as dangerous"
 sed -i '/errors":/d' ./leaderboardforsegment.json
+sed -i '/:"error/d' ./leaderboardforsegment.json
 hive -e "load data local inpath '/home/hive/leaderboardforsegment.json' into table leaderboardforsegment;"
 echo "STEP: retrieve and load leaderboardforsegment complete ******************************************"
 
