@@ -110,6 +110,13 @@ sed "s/ATHLETEID/$ATHLETEID/g" analysis3.sql > analysis3tmp.sql
 beeline -u jdbc:hive2://hiveserver:10000/default --slient=true --outputformat=dsv -n hive -p hive -f analysis3tmp.sql > analysis3.out
 { sed '1,21d;$ d' analysis3.out; } > analysis3a.out
 sed 's/|/","/g;s/^/["/;s/$/"]/' analysis3a.out | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' | sed 's/^/[/;s/$/]/' > analysis03-$ATHLETEID.out
+
+sed "s/ATHLETEID/$ATHLETE_ID/g" swaggerkingsql.proto > swaggerking.sql
+beeline -u jdbc:hive2://hiveserver:10000/default --slient=true --outputformat=dsv -n hive -p hive -f swaggerking.sql > swaggerking.out
+# athletes insert " and \ characters in their names, which breaks tablepress (they curl transer fine). replace them with *.
+# beeline inserts query info so 1st 50 lines and last 2 lines need deletion
+{ sed '/jdbc:hive2/d;s/"/*/g;s/\\/*/g' swaggerking.out; } > swaggerkinga.out
+sed 's/|/","/g;s/^/["/;s/$/"]/' swaggerkinga.out | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' | sed 's/^/[/;s/$/]/' > swaggerking-$ATHLETEID.out
 echo "STEP: analysis complete ******************************************"
 
 # END-OF-FILE
