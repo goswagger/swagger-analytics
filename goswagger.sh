@@ -108,7 +108,9 @@ beeline -u jdbc:hive2://hiveserver:10000/default --slient=true --outputformat=ds
 sed 's/|/","/g;s/^/["/;s/$/"]/' analysis2a.out | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' | sed 's/^/[/;s/$/]/' > analysis02-$ATHLETEID.out
 sed "s/ATHLETEID/$ATHLETEID/g" analysis3.sql > analysis3tmp.sql
 beeline -u jdbc:hive2://hiveserver:10000/default --slient=true --outputformat=dsv -n hive -p hive -f analysis3tmp.sql > analysis3.out
-{ sed '1,21d;$ d' analysis3.out; } > analysis3a.out
+# remove beeline header and footer
+sed '/jdbc:hive2/d' analysis3.out > analysis3a.out
+# format to JSON 
 sed 's/|/","/g;s/^/["/;s/$/"]/' analysis3a.out | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' | sed 's/^/[/;s/$/]/' > analysis03-$ATHLETEID.out
 
 sed "s/ATHLETEID/$ATHLETE_ID/g" swaggerkingsql.proto > swaggerking.sql
