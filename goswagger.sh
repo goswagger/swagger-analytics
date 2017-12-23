@@ -100,11 +100,11 @@ echo "STEP: retrieve and load leaderboardforsegment complete *******************
 # analysis
 beeline -u jdbc:hive2://hiveserver:10000/default --slient=true --outputformat=dsv -n hive -p hive -f analysis1.sql > analysis1.out
 # athletes insert " and \ characters in their names, which breaks tablepress (they curl transer fine). replace them with *.
-{ sed '1,1d;$ d;s/"/*/g;s/\\/*/g' analysis1.out; } > analysis1a.out
+{ sed '/jdbc:hive2/d;s/"/*/g;s/\\/*/g' analysis1.out; } > analysis1a.out
 sed 's/|/","/g;s/^/["/;s/$/"]/' analysis1a.out | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' | sed 's/^/[/;s/$/]/' > analysis01-$ATHLETEID.out
 sed "s/ATHLETEID/$ATHLETEID/g" analysis2.sql > analysis2tmp.sql
 beeline -u jdbc:hive2://hiveserver:10000/default --slient=true --outputformat=dsv -n hive -p hive -f analysis2tmp.sql > analysis2.out
-{ sed '1,12d;$ d' analysis2.out; } > analysis2a.out
+{ sed '/jdbc:hive2/d' analysis2.out; } > analysis2a.out
 sed 's/|/","/g;s/^/["/;s/$/"]/' analysis2a.out | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' | sed 's/^/[/;s/$/]/' > analysis02-$ATHLETEID.out
 sed "s/ATHLETEID/$ATHLETEID/g" analysis3.sql > analysis3tmp.sql
 beeline -u jdbc:hive2://hiveserver:10000/default --slient=true --outputformat=dsv -n hive -p hive -f analysis3tmp.sql > analysis3.out
