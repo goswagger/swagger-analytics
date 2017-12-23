@@ -135,3 +135,18 @@ segment_id int,
 elapsed_time int)
 STORED AS TEXTFILE;
 
+DROP TABLE swaggerkingsegments;
+CREATE TABLE swaggerkingsegments (
+segment_id int,
+athlete_id int,
+athlete_name string,
+rank int)
+STORED AS TEXTFILE;
+
+DROP TABLE swaggercupcount;
+CREATE TABLE swaggercupcount (
+segment_id int,
+segment_name string,
+ranking string,
+segrank int)
+STORED AS TEXTFILE;
